@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<title>HexToDec/DecToHex</title>
+<script type="text/javascript">
+	function clickme(n) {
+		var id = get_radio_value();
+
+		if (id == "DecToHex")
+			return decimalToHex(n);
+
+		if (id == "HexToDec")
+			return hexToDec(n);
+
+	}
+	function get_radio_value() {
+		var inputs = document.getElementsByName("select");
+		for (var i = 0; i < inputs.length; i++) {
+			if (inputs[i].checked) {
+				return inputs[i].value;
+			}
+		}
+
+	}
+	function decimalToHex(number) {
+
+		if (validDec(number) == true) {
+			num = Number(number);
+
+			if (num < 0) {
+				number = 0xFFFFFFFF + number + 1;
+			}
+
+			hex = num.toString(16).toUpperCase();
+			document.convert.output.value = hex;
+		}
+	}
+
+	function hexToDec(h) {
+		if (validHex(h) == true)
+			document.convert.output.value = parseInt(h, 16);
+	}
+
+	function doOperations(a, b) {
+		var id = get_radio_value();
+		if (validHex(a) == true && validHex(b)) {
+
+			if (id == "addition") {
+				var hexAdd = (parseInt(a, 16) + parseInt(b, 16)).toString(16);
+				document.convert.result.value = hexAdd;
+				//return (document.convert.result.value);
+			}
+
+			if (id == "subtraction") {
+				var hexSub = (parseInt(a, 16) - parseInt(b, 16)).toString(16);
+				document.convert.result.value = hexSub;
+				//return (document.convert.result.value);
+			}
+
+			if (id == "multiplication") {
+				var hexMul = (parseInt(a, 16) * parseInt(b, 16)).toString(16);
+				document.convert.result.value = hexMul;
+				//return (document.convert.result.value);	
+			}
+
+			if (id == "division") {
+				var hexQuotient = (parseInt(a, 16) / parseInt(b, 16))
+						.toString(16);
+				var hexRem = (parseInt(a, 16) % parseInt(b, 16)).toString(16);
+				document.convert.result.value = hexQuotient;
+				document.convert.remainder.value = hexRem;
+
+			}
+		}
+	}
+
+	function validHex(hex) {
+		if (hex.search(/^[0-9a-fA-F]+$/) != -1) {
+			return true;
+		} else {
+			alert("Sorry," + hex + " Not a valid hexadecimal number");
+			return false;
+		}
+
+	}
+
+	function validDec(dec) {
+		var decimal = /^\d*\.?\d*$/;
+
+		if (decimal.test(dec)) {
+			return true;
+		} else {
+			alert("Sorry," + dec + " not a valid decimal")
+			return false
+		}
+
+	}
+</script>
+</head>
+
+<body bgcolor="#F5F5DC">
+
+	<h1 align="center">32 Bit Decimal/Hexadecimal</h1>
+
+	<p>This page handles 32 bit decimal/hexadecimal values.The top part
+		handles convertion from decimal/hexadecimal and vice-versa. The bottom
+		part is a hexadecimal calculator.</p>
+	<hr noshade>
+	<div>
+		<form id="form1" name="convert" method="post" action="">
+			<fieldset id="convertion">
+				<legend> Decimal/Hexadecimal Converter</legend>
+
+				<label for="input"> Input Value </label> <input type="text"
+					id="input" name="input" id="input" value="ff/00"> <br>
+				<br> <label><input type="radio" name="select"
+					id="DecToHex" value="DecToHex">DecToHex</label> <br> <br>
+				<label><input type="radio" name="select" id="HexToDec"
+					value="HexToDec">HexToDec</label> <br> <br> <label><input
+					type="button" id="submit" value="submit"
+					onclick="clickme(document.convert.input.value)"> </label> <br>
+				<br> <label for="output"> Output </label> <input type="text"
+					name="output" id="output">
+			</fieldset>
+
+			<fieldset id="operation">
+				<legend> Hexadecimal Calculator</legend>
+				<div id="hex">Enter two hexadecimal numbers.It accepts only
+					values that contain 0-9 or A-F or a-f</div>
+
+				<table bgcolor="#FAEBD7" cellpadding="10" cellspacing="10">
+					<tr>
+						<td><input type="text" name="input1" value="abcd" id="input1"
+							size=10></td>
+						<td><input type="text" name="input2" value="abcd" id="input2"
+							size=10></td>
+					</tr>
+					<tr>
+						<td><label><input type="radio" name="select"
+								id="addition" value="addition">Adder</label></td>
+						<td><label><input type="radio" name="select"
+								id="subtraction" value="subtraction">Subtracter</label></td>
+						<td><label><input type="radio" name="select"
+								id="multiplication" value="multiplication">Multiplier</label></td>
+						<td><label><input type="radio" name="select"
+								id="division" value="division">Divider</label></td>
+					</tr>
+					<tr>
+						<td><label><input type="button" id="calculate"
+								value="calculate"
+								onclick="doOperations(document.convert.input1.value,document.convert.input2.value)">
+						</label></td>
+						<td><button type="reset" value="reset">Clear</button></td>
+					</tr>
+
+				</table>
+				<label for="result"> Result </label> <input type="text"
+					name="result" id="result"> <label for="remainder">
+					Remainder </label> <input type="text" name="remainder" id="remainder">
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>
+
